@@ -55,6 +55,17 @@
         <td th:text="${user.username}"></td>
         <td th:text="${user.role}"></td>
         <td th:text="${user.password_hash}"></td>
+        <td>
+            <form th:action="@{/delete}" method="post">
+                <input type="hidden"
+                       name="userID"
+                       th:value="${user.id}" />
+
+                <button type="submit">
+                    Delete
+                </button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>

@@ -88,4 +88,29 @@ public class UserAccessController
 
         response.sendRedirect(redirect);
     }
+
+    @PostMapping("/delete")
+    public String delete(Model model, @RequestParam("userID") Long userID)
+    {
+        var user = userRepository.findById(userID)
+            .orElse(null);
+
+        if (user == null)
+        {
+            model.addAttribute("error", "user not found: " + userID);
+            return "error";
+        }
+
+        if (user.getRole() != Role.CUSTOMER)
+        {
+            model.addAttribute("error", "user is not customer: " + userID);
+            return "error";
+        }
+
+        userRepository.delete(user);
+        userRepository.flush();
+
+        model.addAttribute("message", "Deleted: " + userID);
+        return "success";
+    }
 }
